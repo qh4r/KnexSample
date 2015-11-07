@@ -1,0 +1,23 @@
+{
+  "name": "knextest",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/qh4r/KnexSample.git"
+  },
+  "author": "qh4r",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/qh4r/KnexSample/issues"
+  },
+  "homepage": "https://github.com/qh4r/KnexSample",
+  "dependencies": {
+    "knex": "^0.9.0",
+    "pg": "^4.4.3"
+  }
+}
