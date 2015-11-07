@@ -54,6 +54,7 @@ knex("book")
         knex.destroy();
         console.log('\nfinally');
     });
+//join to tree
 
 knex("book")
     .select(["book.author_id as book:author_id", "book.title as book:title", "book.rating as book:rating", "author.firstname as author:firstname", 'author.lastname as author:lastname'])
@@ -73,6 +74,21 @@ knex("book")
     }).finally(function () {
         knex.destroy();
     });
+
+
+//dodana bezsensowna transakcja
+knex.transaction(function (trx) {
+    trx.insert({firstname: "Anna", lastname: "Hanna"}).into("author")
+        .then(function (result) {
+            console.log('transakcja');
+            console.log(result);
+            return result;
+        }).then(function(){
+            return trx.from("author").where({firstname: "Anna"}).del()
+            //edycja analogicznie
+        }).then(trx.commit)
+        .catch(trx.rollback);
+});
 
 
 console.log("Done. ");
