@@ -1,5 +1,5 @@
 var cfg = require('./knex-config');
-    knex = require('knex')(cfg);
+knex = require('knex')(cfg);
 
 //czysci terminal (funkcja clear)
 process.stdout.write("\033c");
@@ -18,22 +18,38 @@ query.asCallback(function (err, result) {
         console.log(result);
         knex.destroy();
     }
-}).then(function(){
+}).then(function () {
     console.log('\n druga: \n');
 });
 
 //kwerenda jest wielokrotnego użytku
 //dopuszczalne są promisy i callbacki
-query.asCallback()
-    .then(function(result){
+query
+    .then(function (result) {
         console.log(result);
     })
-    .catch(function(err){
-    console.log(err);
-}).finally(function(){
+    .catch(function (err) {
+        console.log(err);
+    }).finally(function () {
         knex.destroy();
         console.log('\nfinally');
     });
 
+knex("book")
+    .select(["book.author_id", "author.firstname", 'author.lastname'])
+    .join("author", "author.id", "=", "book.author_id")
+    .groupBy(["author_id", "author.firstname", "author.lastname"])
+    .max("rating as score").orderBy('author.firstname', 'DESC')
+    .then(function (result) {
+        console.log("\n group \n");
+        console.log(result);
+    })
+    .catch(function (err) {
+        console.log("\n group \n");
+        console.log(err);
+    }).finally(function () {
+        knex.destroy();
+        console.log('\nfinally');
+    });
 
 console.log("Done. ");
